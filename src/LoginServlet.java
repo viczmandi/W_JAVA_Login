@@ -19,10 +19,14 @@ public class LoginServlet extends HttpServlet {
 		String name = request.getParameter("userName");
 		String password = request.getParameter("passwd");
 
+		HttpSession session = request.getSession();
 		if (name.equals("viczmandi") && password.equals("pwd123")) {
-			out.print("Welcome " + name + "! <a href=\"ProfileServlet\">Go to your profile</a>");
-			HttpSession session = request.getSession();
-			session.setAttribute("name", name);
+			if (session.getAttribute("userName") == null || !session.getAttribute("userName").equals(name)) {
+				out.print("Welcome " + name + "! <a href=\"ProfileServlet\">Go to your profile</a>");
+				session.setAttribute("userName", name);
+			} else {
+				response.sendRedirect("ProfileServlet");
+			}
 		} else {
 			out.print("<span class=\"error\">Bad username or password! Permission denied</span>");
 			request.getRequestDispatcher("index.html").include(request, response);
