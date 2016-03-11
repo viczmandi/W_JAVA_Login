@@ -18,9 +18,10 @@ public class ProfileServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			String name = (String) session.getAttribute("userName");
-			out.print("Hello, " + name + "! Welcome to your Profile! <a href=\"LogoutServlet\">Logout</a>");
+			out.print("Hello, " + name
+					+ "! Welcome to your Profile! <a href=\"index.html\">Login page</a> | <a href=\"LogoutServlet\">Logout</a>");
 		} else {
-			out.print("<span class=\"error\">Please login first</span>");
+			out.print("<span class=\"error\">Please login first</span><hr>");
 			request.getRequestDispatcher("index.html").include(request, response);
 		}
 		out.close();

@@ -22,13 +22,16 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		if (name.equals("viczmandi") && password.equals("pwd123")) {
 			if (session.getAttribute("userName") == null || !session.getAttribute("userName").equals(name)) {
-				out.print("Welcome " + name + "! <a href=\"ProfileServlet\">Go to your profile</a>");
+				// out.print("Welcome " + name + "! <a
+				// href=\"ProfileServlet\">Go to your profile</a>");
 				session.setAttribute("userName", name);
-			} else {
 				response.sendRedirect("ProfileServlet");
+			} else if (session.getAttribute("userName") != null) {
+				out.print(name + ", you are already logged in! <a href=\"ProfileServlet\">Go to your profile</a><hr>");
+				request.getRequestDispatcher("index.html").include(request, response);
 			}
 		} else {
-			out.print("<span class=\"error\">Bad username or password! Permission denied</span>");
+			out.print("<span class=\"error\">Bad username or password! Permission denied</span><hr>");
 			request.getRequestDispatcher("index.html").include(request, response);
 		}
 		out.close();
